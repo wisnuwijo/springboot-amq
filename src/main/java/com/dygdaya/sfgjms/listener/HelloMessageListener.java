@@ -1,6 +1,6 @@
 package com.dygdaya.sfgjms.listener;
 
-import com.dygdaya.sfgjms.config.JmsConfig;
+import com.dygdaya.sfgjms.config.AmqConfig;
 import com.dygdaya.sfgjms.model.HelloWorldMessage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.jms.annotation.JmsListener;
@@ -20,7 +20,7 @@ public class HelloMessageListener {
 
     private final JmsTemplate jmsTemplate;
 
-    @JmsListener(destination = JmsConfig.MY_QUEUE)
+    @JmsListener(destination = AmqConfig.MY_QUEUE)
     public void listen(
             @Payload HelloWorldMessage helloWorldMessage,
             @Headers MessageHeaders headers, Message message
@@ -35,7 +35,7 @@ public class HelloMessageListener {
         // throw new RuntimeException("Hola");
     }
 
-    @JmsListener(destination = JmsConfig.MY_SEND_RCV_QUEUE)
+    @JmsListener(destination = AmqConfig.MY_SEND_RCV_QUEUE)
     public void listenForHello(
             @Payload HelloWorldMessage helloWorldMessage,
             @Headers MessageHeaders headers, Message message

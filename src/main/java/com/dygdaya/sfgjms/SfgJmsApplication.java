@@ -1,16 +1,31 @@
 package com.dygdaya.sfgjms;
 
-import org.apache.activemq.artemis.core.config.impl.ConfigurationImpl;
-import org.apache.activemq.artemis.core.server.ActiveMQServer;
-import org.apache.activemq.artemis.core.server.ActiveMQServers;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
+import org.springframework.jms.core.JmsTemplate;
 
 @SpringBootApplication
 public class SfgJmsApplication {
 
+	private static final Logger log = LoggerFactory.getLogger(SfgJmsApplication.class);
+
 	public static void main(String[] args) throws Exception {
 		SpringApplication.run(SfgJmsApplication.class, args);
+	}
+
+	@Value("${myqueue}")
+	String queue;
+	@Bean
+	CommandLineRunner start(JmsTemplate template) {
+		return args -> {
+			log.info("Sending> ...");
+			template.convertAndSend(queue, "Hello World from Spring Boot!");
+		};
 	}
 
 }
